@@ -1,6 +1,4 @@
 from PIL import Image, ImageEnhance
-import src.convert_to_jpg
-import src.delete_exif
 import random
 import string
 from pystyle import *
@@ -45,36 +43,37 @@ print(Center.XCenter(Colors.light_red + "                                       
 print("\n")
 
 for nom in os.listdir("input"):
-    extension=nom.split('.')[-1].lower()
     
-    characters = string.ascii_letters + string.digits
-    random_name = ''.join(random.choice(characters) for i in range(32))
-    
-    if not extension == ".jpg" or ".jpeg" or ".jfif":
-        convert_to_jpg(image_path=f'input\\{nom}', output_path=f'input\\{random_name}' + '.jpg')
-    
-    characters = string.ascii_letters + string.digits
-    second_random_name = ''.join(random.choice(characters) for i in range(32))
-    
-    #os.system('pause')
-    
-    delete_exif(image_path=f'input\\{random_name}' + '.jpg', output_path=f'input\\{second_random_name}' + '.jpg', random_name=second_random_name)
-    os.remove(f'input\\{random_name}' + '.jpg')
-    
-    img = Image.open(f'input\\{second_random_name}' + '.jpg')
-    width, height = img.size
-    width = int(width) - 1
-    height = int(height) - 1
-    print(Center.XCenter(Colors.light_red + "I" + Colors.white + "mage size before resizing : " + Colors.light_red + "(" + Colors.white + str(width) + Colors.light_red + "," + Colors.white + str(height) + Colors.light_red + ")"))
-    
-    img_resized = img.resize((width,height))
-    width, height = img_resized.size
-    width = int(width) - 1
-    height = int(height) - 1
+    if not nom == "PUT YOUR PHOTOS HERE.txt":
+        extension=nom.split('.')[-1].lower()
+        
+        characters = string.ascii_letters + string.digits
+        random_name = ''.join(random.choice(characters) for i in range(32))
+        
+        #if not extension == ".jpg" or ".jpeg" or ".jfif":
+            #convert_to_jpg(image_path=f'input\\{nom}', output_path=f'input\\{random_name}' + '.jpg')
+        
+        #os.system('pause')
+        
+        delete_exif(image_path=f'input\\{nom}', output_path=f'input\\{random_name}' + "." + extension, random_name=random_name)
+        #os.remove(f'input\\{random_name}' + '.jpg')
+        
+        img = Image.open(f'input\\{random_name}' + "." + extension)
+        width, height = img.size
+        width = int(width) - 1
+        height = int(height) - 1
+        print(Center.XCenter(Colors.light_red + "I" + Colors.white + "mage size before resizing : " + Colors.light_red + "(" + Colors.white + str(width) + Colors.light_red + "," + Colors.white + str(height) + Colors.light_red + ")"))
+        
+        img_resized = img.resize((width,height))
+        width, height = img_resized.size
+        width = int(width) - 1
+        height = int(height) - 1
 
-    print(Center.XCenter(Colors.light_red + "I" + Colors.white + "mage size after resizing : " + Colors.light_red + "(" + Colors.white + str(width) + Colors.light_red + "," + Colors.white + str(height) + Colors.light_red + ")"))
+        print(Center.XCenter(Colors.light_red + "I" + Colors.white + "mage size after resizing : " + Colors.light_red + "(" + Colors.white + str(width) + Colors.light_red + "," + Colors.white + str(height) + Colors.light_red + ")"))
 
-    img_resized.save(f'output\\{second_random_name}.{extension}')
-    
-    os.remove(f'input\\{second_random_name}' + '.jpg')
-    print(Colors.reset + "\n")
+        img_resized.save(f'output\\{random_name}.{extension}')
+        
+        os.remove(f'input\\{random_name}' + "." + extension)
+        print(Colors.reset + "\n")
+        
+os.system("pause>nul")
